@@ -13,8 +13,12 @@ declare(strict_types = 1);
 |
 */
 
+use App\Interfaces\UserInterface;
+use App\Models\{Store, User};
+use Illuminate\Database\Eloquent\Model;
+
 pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->use(Illuminate\Foundation\Testing\LazilyRefreshDatabase::class)
     ->in('Feature');
 
 /*
@@ -43,7 +47,39 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function mockUserInterface(?Store $store = null, ?User $user = null): void
 {
-    // ..
+    \Pest\Laravel\mock(UserInterface::class, function ($mock) use ($user, $store) {
+        $mock->shouldReceive('user')->once()->andReturn($user ?: User::factory()->make());
+        $mock->shouldReceive('store')->once()->andReturn($store ?: Store::factory()->create());
+    });
+}
+
+function mockAuthorizationUser(User &$user, ...$params): void
+{
+    $ability = array_shift($params);
+
+    $user = Mockery::mock($user)->makePartial();
+    $user->shouldReceive('can')
+        ->withArgs(function (...$paramsFunction) use ($ability, $params) {
+            $abilityCan = array_shift($paramsFunction);
+
+            foreach ($params as $key => $value) {
+                if ($value instanceof Model) {
+                    if (!$value->is($params[$key])) {
+                        return false;
+                    }
+
+                    continue;
+                }
+
+                if ($value !== $paramsFunction[$key]) {
+                    return false;
+                }
+            }
+
+            return $abilityCan === $ability;
+        })
+        ->once()
+        ->andReturnTrue();
 }
