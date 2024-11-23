@@ -11,6 +11,8 @@ pre-rebase:
 pre-push:
   parallel: true
   scripts:
+    "migration.sh":
+      runner: bash
     "test.sh":
       runner: bash
     "pint.sh":
