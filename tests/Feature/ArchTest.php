@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 use App\Trait\StoreActionTrait;
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
-use Lorisleiva\Actions\Concerns\{AsAction, WithAttributes};
+use Lorisleiva\Actions\Concerns\{AsAction};
 
 arch('dump')
     ->expect('App')
@@ -16,9 +16,8 @@ arch('actions')
     ->toBeClasses()
     ->toExtendNothing()
     ->toHaveLineCountLessThan(100)
-    ->toUseTraits([AsAction::class, WithAttributes::class, StoreActionTrait::class])
-    ->toHaveMethods(['authorize', 'rules', 'handle'])
-    ->not->toHaveProtectedMethodsBesides(['rules', 'authorize']);
+    ->toUseTraits([AsAction::class, StoreActionTrait::class])
+    ->toHaveMethods(['handle']);
 
 arch('model')
     ->expect('App\Models')

@@ -55,31 +55,66 @@ function mockUserInterface(?Store $store = null, ?User $user = null): void
     });
 }
 
-function mockAuthorizationUser(User &$user, ...$params): void
+//function mockCanUser(User &$user, ...$params): void
+//{
+//    $ability = array_shift($params);
+//
+//    $user = Mockery::mock($user)->makePartial();
+//    $user->shouldReceive('can')
+//        ->withArgs(function (...$paramsFunction) use ($ability, $params) {
+//            $abilityCan = array_shift($paramsFunction);
+//
+//            foreach ($params as $key => $value) {
+//                if ($value instanceof Model) {
+//                    if (!$value->is($params[$key])) {
+//                        return false;
+//                    }
+//
+//                    continue;
+//                }
+//
+//                if ($value !== $paramsFunction[$key]) {
+//                    return false;
+//                }
+//            }
+//
+//            return $abilityCan === $ability;
+//        })
+//        ->once()
+//        ->andReturnTrue();
+//}
+
+function mockAuthorizeUser(User $user, ...$arguments): void
 {
-    $ability = array_shift($params);
+    Illuminate\Support\Facades\Gate::shouldReceive('forUser')
+        ->with($user)
+        ->andReturnSelf();
 
-    $user = Mockery::mock($user)->makePartial();
-    $user->shouldReceive('can')
-        ->withArgs(function (...$paramsFunction) use ($ability, $params) {
-            $abilityCan = array_shift($paramsFunction);
+    Illuminate\Support\Facades\Gate::shouldReceive('authorize')
+        ->withArgs(function (...$params) use ($arguments) {
+            $ability    = array_shift($params);
+            $abilityArg = array_shift($arguments);
 
-            foreach ($params as $key => $value) {
+            $paramsPolicy = $params[0] ?? [];
+
+            if ($ability !== $abilityArg) {
+                return false;
+            }
+
+            foreach ($paramsPolicy as $key => $value) {
                 if ($value instanceof Model) {
-                    if (!$value->is($params[$key])) {
+                    if (!$value->is($arguments[$key])) {
                         return false;
                     }
 
                     continue;
                 }
 
-                if ($value !== $paramsFunction[$key]) {
+                if ($value !== $arguments[$key]) {
                     return false;
                 }
             }
 
-            return $abilityCan === $ability;
-        })
-        ->once()
-        ->andReturnTrue();
+            return true;
+        });
 }

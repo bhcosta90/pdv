@@ -17,6 +17,10 @@ return new class () extends Migration {
             $table->foreignId('store_id')->constrained();
             $table->string('code');
             $table->string('name');
+            $table->foreignId('opened_by')->nullable()->constrained('users');
+            $table->dateTime('opened_at')->nullable();
+            $table->foreignId('closed_by')->nullable()->constrained('users');
+            $table->dateTime('closed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

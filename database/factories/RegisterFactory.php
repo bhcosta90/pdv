@@ -16,8 +16,8 @@ class RegisterFactory extends Factory
     {
         return [
             'store_id'   => Store::factory(),
-            'code'       => $this->faker->word(),
-            'name'       => $this->faker->name(),
+            'code'       => str()->uuid(),
+            'name'       => str($this->faker->unique()->lexify('???-??????'))->upper(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Livewire\Welcome;
+use App\Livewire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +18,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', Welcome::class)->name('dashboard');
+    Route::get('/', Livewire\Welcome::class)->name('dashboard');
+
+    Route::middleware('register.defined')->group(function () {
+        Route::middleware('register.open')->group(function () {
+            Route::as('sale.')->prefix('sale')->group(function () {
+                Route::get('create', fn () => 'oi')->name('create');
+            });
+        });
+    });
+
+    Route::as('register.')->prefix('register')->group(function () {
+        Route::get('define', Livewire\Register\Defined::class)->name('define');
+    });
 });
 
 Route::get('login', function (Request $request) {

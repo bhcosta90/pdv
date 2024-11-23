@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\{Store, User};
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,10 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Store::factory()
+            ->hasRegisters(3)
+            ->create();
 
         User::factory()->create([
-            'name'  => 'Test User',
+            'name'  => 'Test UserFacade',
             'email' => 'test@example.com',
         ]);
     }

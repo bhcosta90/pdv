@@ -7,33 +7,26 @@ namespace App\Actions\Register;
 use App\Models\{Register};
 use App\Rules\StoreRule;
 use App\Trait\StoreActionTrait;
-use Lorisleiva\Actions\Concerns\{AsAction, WithAttributes};
+use Illuminate\Support\Facades\Validator;
+use Lorisleiva\Actions\Concerns\{AsAction};
 
 class ShowRegister
 {
     use AsAction;
-    use WithAttributes;
     use StoreActionTrait;
 
-    protected Register $register;
+    protected ?Register $register;
 
-    public function handle(string $code): Register
+    public function handle(?string $code): Register
     {
-        $this->set('register_id', ($this->register = Register::whereCode($code)->first())->id);
-        $this->validateAttributes();
+        Validator::make(['register' => $code], [
+            'register' => ['required', new StoreRule('registers', $this->store->id, 'code')],
+        ])->validate();
+
+        $this->register = Register::whereCode($code)->first();
+
+        $this->authorizeForUser($this->user, 'show', [$this->register, $this->store]);
 
         return $this->register;
-    }
-
-    public function authorize(): bool
-    {
-        return $this->user->can('show', [$this->register, $this->store]);
-    }
-
-    public function rules(): array
-    {
-        return [
-            'register_id' => ['required', new StoreRule('registers', $this->store->id)],
-        ];
     }
 }

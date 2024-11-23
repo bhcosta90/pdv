@@ -6,9 +6,12 @@ namespace App\Trait;
 
 use App\Interfaces\UserInterface;
 use App\Models\{Store, User};
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 trait StoreActionTrait
 {
+    use AuthorizesRequests;
+
     protected Store $store;
 
     protected User $user;
