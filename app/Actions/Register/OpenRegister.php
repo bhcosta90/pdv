@@ -33,7 +33,7 @@ class OpenRegister
             throw new RegisterAttemptException('The balance is different from the last closed balance.');
         }
 
-        $register->registerActivity($balance, RegisterHistoryAction::Open);
+        $register->registerActivity($this->user, $balance, RegisterHistoryAction::Open);
 
         $register->opened_by = $this->user->id;
         $register->closed_by = null;
