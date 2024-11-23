@@ -23,6 +23,6 @@ class Store extends Model
 
     public function registers(): HasMany
     {
-        return $this->hasMany(Register::class)->orderBy('code');
+        return $this->hasMany(Register::class);
     }
 }

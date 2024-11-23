@@ -7,10 +7,10 @@ namespace App\Actions\Register;
 use App\Models\Register;
 use App\Rules\StoreRule;
 use App\Trait\StoreActionTrait;
+use Illuminate\Support\Facades\Validator;
 
 class OpenRegister
 {
-    use AsAction;
     use StoreActionTrait;
 
     public function handle(?string $code): Register
@@ -19,10 +19,10 @@ class OpenRegister
             'register' => ['required', new StoreRule('registers', $this->store->id, 'code')],
         ])->validate();
 
-        $this->register = Register::whereCode($code)->first();
+        $register = Register::whereCode($code)->first();
 
-        $this->authorizeForUser($this->user, 'open', [$this->register, $this->store]);
+        $this->authorizeForUser($this->user, 'open', [$register, $this->store]);
 
-        return $this->register;
+        return $register;
     }
 }

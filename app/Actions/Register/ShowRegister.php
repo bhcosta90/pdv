@@ -8,11 +8,9 @@ use App\Models\{Register};
 use App\Rules\StoreRule;
 use App\Trait\StoreActionTrait;
 use Illuminate\Support\Facades\Validator;
-use Lorisleiva\Actions\Concerns\{AsAction};
 
 class ShowRegister
 {
-    use AsAction;
     use StoreActionTrait;
 
     protected ?Register $register;

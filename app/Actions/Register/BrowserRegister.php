@@ -7,21 +7,22 @@ namespace App\Actions\Register;
 use App\Models\Register;
 use App\Trait\StoreActionTrait;
 use Illuminate\Support\Facades\Cookie;
-use Lorisleiva\Actions\Concerns\AsAction;
 
 class BrowserRegister
 {
-    use AsAction;
     use StoreActionTrait;
 
     public function handle(): ?Register
     {
-        $registerCookie = Cookie::get('register') ?: Cookie::queue('register');
+        $registerCookie = Cookie::get('register');
 
         if (!$registerCookie) {
             return null;
         }
 
-        return $this->store->registers()->whereCode($registerCookie)->first();
+        /** @var Register $register */
+        $register = $this->store->registers()->whereCode($registerCookie)->first();
+
+        return $register;
     }
 }

@@ -16,12 +16,12 @@ class UserService implements UserInterface
         $this->user = auth()->user();
     }
 
-    public function store(): Store
+    public function store(): ?Store
     {
         return Store::first();
     }
 
-    public function user(): User
+    public function user(): ?User
     {
         return $this->user;
     }

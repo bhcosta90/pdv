@@ -8,7 +8,7 @@ use App\Models\{Store, User};
 
 interface UserInterface
 {
-    public function store(): Store;
+    public function store(): ?Store;
 
-    public function user(): User;
+    public function user(): ?User;
 }
