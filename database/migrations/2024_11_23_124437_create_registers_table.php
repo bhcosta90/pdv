@@ -17,10 +17,13 @@ return new class () extends Migration {
             $table->foreignId('store_id')->constrained();
             $table->string('code');
             $table->string('name');
+            $table->unsignedBigInteger('balance')->default(0);
             $table->foreignId('opened_by')->nullable()->constrained('users');
             $table->dateTime('opened_at')->nullable();
+            $table->unsignedTinyInteger('opened_attempt')->nullable();
             $table->foreignId('closed_by')->nullable()->constrained('users');
             $table->dateTime('closed_at')->nullable();
+            $table->unsignedTinyInteger('closed_attempt')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
