@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Actions\Register;
 
 use App\Actions\Register\Exception\RegisterAttemptException;
+use App\Models\Enums\RegisterHistoryAction;
 use App\Models\Register;
 use App\Rules\StoreRule;
 use App\Trait\StoreActionTrait;
@@ -32,6 +33,8 @@ class CloseRegister
 
                 throw new RegisterAttemptException('The balance is different from the last closed balance.');
             }
+
+            $register->changeBalance($balance, RegisterHistoryAction::Close);
         }
 
         $register->closed_by = $this->user->id;
