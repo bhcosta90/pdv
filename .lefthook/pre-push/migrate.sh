@@ -5,9 +5,11 @@ sailCommand=$([[ "$sailEnabled" = "true" ]] && echo "./vendor/bin/sail" || echo 
 echo "Running Tests"
 if [ -n "$sailCommand" ]; then
     $sailCommand php artisan migrate
+    $sailCommand php artisan db:seed
     $sailCommand php artisan migrate:rollback
 else
     php artisan migrate
+    php artisan db:seed
     php artisan migrate:rollback
 fi
 STATUS_CODE=$?
