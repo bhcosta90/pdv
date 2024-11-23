@@ -28,6 +28,15 @@ arch('model')
     ->toExtend(Model::class)
     ->ignoring('App\Models\Enums');
 
+arch('enums')
+    ->expect('App\Models\Enums')
+    ->toBeEnums();
+
+arch('models - enums')
+    ->expect('App\Models')
+    ->enums()
+    ->toOnlyBeUsedIn('App\Models');
+
 arch('http')
     ->expect('App\Http')
     ->toOnlyBeUsedIn('App\Http');
