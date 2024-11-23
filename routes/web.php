@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 use App\Livewire\Welcome;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function () {
     Route::get('/', Welcome::class)->name('dashboard');
 });
 
-Route::get('login', function(Request $request){
+Route::get('login', function (Request $request) {
     $request->headers->set('Accept', 'application/json');
     $request->headers->set('Content-Type', 'application/json');
 
@@ -27,10 +29,9 @@ Route::get('login', function(Request $request){
         'email' => ['required', 'email', 'exists:users,email'],
     ]);
 
-    $user = \App\Models\User::whereEmail($request->email)->firstOrFail();
+    $user = App\Models\User::whereEmail($request->email)->firstOrFail();
     auth()->login($user);
 
     return redirect()->route('dashboard');
 
 })->name('login');
-

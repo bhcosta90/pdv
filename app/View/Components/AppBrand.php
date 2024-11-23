@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\View\Components;
 
 use Closure;
@@ -13,7 +15,7 @@ class AppBrand extends Component
         //
     }
 
-    public function render(): View|Closure|string
+    public function render(): View | Closure | string
     {
         return <<<'HTML'
                 <a href="/" wire:navigate>
