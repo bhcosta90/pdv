@@ -25,19 +25,19 @@ jobs:
     - name: Execute stan
       run: ./vendor/bin/phpstan analyse --memory-limit=2G
     - name: Execute pint
-      run: ./vendor/bin/pest
+      run: ./vendor/bin/pint --test
     - name: Create Database
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan test
     - name: Migration
       run: php artisan migrate
     - name: Seed
       run: php artisan db:seed
     - name: Rollback
       run: php artisan migrate:rollback
-    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan test
