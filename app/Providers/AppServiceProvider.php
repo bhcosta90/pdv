@@ -10,6 +10,7 @@ use App\Services\UserService;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Webit\Wrapper\BcMath\BcMathNumber;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        BcMathNumber::setDefaultScale(4);
+
         foreach (Can::cases() as $can) {
             Gate::define($can, fn (User $user) => true);
         }

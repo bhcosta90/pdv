@@ -28,6 +28,7 @@ return new class () extends Migration {
             $table->softDeletes();
 
             $table->unique(['store_id', 'code']);
+            $table->unique(['store_id', 'name']);
         });
     }
 

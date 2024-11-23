@@ -5,13 +5,12 @@ declare(strict_types = 1);
 namespace App\Actions\Register;
 
 use App\Actions\Register\Exception\RegisterAttemptException;
-use App\Models\Enums\RegisterHistoryAction;
 use App\Models\Register;
 use App\Rules\StoreRule;
 use App\Trait\StoreActionTrait;
 use Illuminate\Support\Facades\Validator;
 
-class OpenRegister
+class CloseRegister
 {
     use StoreActionTrait;
 
@@ -27,24 +26,22 @@ class OpenRegister
         $this->authorizeForUser($this->user, 'open', [$register, $this->store]);
 
         if ($balance !== $register->balance) {
-            if ($register->opened_attempt === null) {
-                $register->opened_attempt = 1;
+            if ($register->closed_attempt === null) {
+                $register->closed_attempt = 1;
                 $register->save();
 
                 throw new RegisterAttemptException('The balance is different from the last closed balance.');
             }
-
-            $register->changeBalance($balance, RegisterHistoryAction::Open);
         }
 
-        $register->opened_by = $this->user->id;
-        $register->closed_by = null;
+        $register->closed_by = $this->user->id;
+        $register->opened_by = null;
 
-        $register->opened_at = now();
-        $register->closed_at = null;
+        $register->closed_at = now();
+        $register->opened_at = null;
 
-        $register->opened_attempt = null;
         $register->closed_attempt = null;
+        $register->opened_attempt = null;
 
         $register->save();
 
