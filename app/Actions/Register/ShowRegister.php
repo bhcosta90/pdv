@@ -33,7 +33,7 @@ class ShowRegister
     public function rules(): array
     {
         return [
-            'register_id' => ['required', new StoreRule(new Register(), $this->store->id)],
+            'register_id' => ['required', new StoreRule('registers', $this->store->id)],
         ];
     }
 }
