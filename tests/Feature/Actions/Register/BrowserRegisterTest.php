@@ -3,11 +3,8 @@
 declare(strict_types = 1);
 
 use App\Actions\Register\BrowserRegister;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Route;
 use App\Models\{Register, Store, User};
-use Illuminate\Validation\ValidationException;
-use function Pest\Laravel\withUnencryptedCookie;
+use Illuminate\Support\Facades\{Cookie};
 
 beforeEach(function () {
     $this->store = Store::factory()->create();
