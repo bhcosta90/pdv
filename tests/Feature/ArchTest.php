@@ -22,8 +22,11 @@ arch('actions')
 arch('model')
     ->expect('App\Models')
     ->toBeClasses()
+    ->ignoring('App\Models\Enums')
     ->toUseTraits([SoftDeletes::class])
-    ->toExtend(Model::class);
+    ->ignoring('App\Models\Enums')
+    ->toExtend(Model::class)
+    ->ignoring('App\Models\Enums');
 
 arch('http')
     ->expect('App\Http')
