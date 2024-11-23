@@ -44,7 +44,7 @@ class Register extends Model
         $valueHistory = abs((float) (string) BcMathNumberFacade::make($value)->sub($this->balance));
 
         $this->histories()->create([
-            'value'  => $valueHistory !== 0 ? $valueHistory : null,
+            'value'  => $valueHistory !== 0.0 ? $valueHistory : null,
             'action' => $action,
             'type'   => match (true) {
                 $value > $this->balance => RegisterHistoryType::Credit,

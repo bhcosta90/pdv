@@ -2,8 +2,8 @@
 
 declare(strict_types = 1);
 
-use App\Actions\Register\Exception\RegisterAttemptException;
 use App\Actions\Register\OpenRegister;
+use App\Exceptions\RegisterAttemptException;
 use App\Models\Enums\{RegisterHistoryAction, RegisterHistoryType};
 use App\Models\Register;
 

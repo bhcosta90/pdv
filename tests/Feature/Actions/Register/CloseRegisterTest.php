@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 
 use App\Actions\Register\CloseRegister;
-use App\Actions\Register\Exception\RegisterAttemptException;
+use App\Exceptions\RegisterAttemptException;
 use App\Models\Enums\{RegisterHistoryAction, RegisterHistoryType};
 use App\Models\Register;
 

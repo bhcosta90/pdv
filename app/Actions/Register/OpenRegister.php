@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Actions\Register;
 
-use App\Actions\Register\Exception\RegisterAttemptException;
+use App\Exceptions\RegisterAttemptException;
 use App\Models\Enums\RegisterHistoryAction;
 use App\Models\Register;
 use App\Rules\StoreRule;
