@@ -6,6 +6,7 @@ namespace App\Models\Enums;
 
 enum RegisterHistoryType: int
 {
-    case Credit = 1;
-    case Debit  = 2;
+    case Credit  = 1;
+    case Debit   = 2;
+    case Success = 3;
 }

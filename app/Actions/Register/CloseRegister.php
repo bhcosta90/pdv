@@ -26,16 +26,14 @@ class CloseRegister
 
         $this->authorizeForUser($this->user, 'open', [$register, $this->store]);
 
-        if ($balance !== $register->balance) {
-            if ($register->closed_attempt === null) {
-                $register->closed_attempt = 1;
-                $register->save();
+        if ($balance !== $register->balance && $register->closed_attempt === null) {
+            $register->closed_attempt = 1;
+            $register->save();
 
-                throw new RegisterAttemptException('The balance is different from the last closed balance.');
-            }
-
-            $register->changeBalance($balance, RegisterHistoryAction::Close);
+            throw new RegisterAttemptException('The balance is different from the last closed balance.');
         }
+
+        $register->registerActivity($balance, RegisterHistoryAction::Close);
 
         $register->closed_by = $this->user->id;
         $register->opened_by = null;

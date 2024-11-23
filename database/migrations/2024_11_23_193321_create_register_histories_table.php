@@ -12,7 +12,7 @@ return new class () extends Migration {
         Schema::create('register_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('register_id');
-            $table->unsignedBigInteger('value');
+            $table->unsignedBigInteger('value')->nullable();
             $table->unsignedTinyInteger('action');
             $table->unsignedTinyInteger('type');
             $table->timestamps();

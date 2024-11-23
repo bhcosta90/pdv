@@ -2,23 +2,28 @@
 
 declare(strict_types = 1);
 
-use App\Actions\Register\Exception\RegisterAttemptException;
 use App\Actions\Register\CloseRegister;
+use App\Actions\Register\Exception\RegisterAttemptException;
 use App\Models\Enums\{RegisterHistoryAction, RegisterHistoryType};
 use App\Models\Register;
 
 beforeEach(function () {
-    $user           = mockUserInterface();
+    $user = mockUserInterface();
 
     $this->register = Register::factory()->recycle($user->store)->create(['balance' => 20]);
-    $this->action = app(CloseRegister::class);
+    $this->action   = app(CloseRegister::class);
 });
 
 it('opens register with zero balance', function () {
     $this->action->handle((string) $this->register->code, 20.0);
 
     expect($this->register->refresh())
-        ->balance->toBe(20.0);
+        ->balance->toBe(20.0)
+        ->and($this->register->histories->get(0)->toArray())->toMatchArray([
+            'action' => RegisterHistoryAction::Close->value,
+            'type'   => RegisterHistoryType::Success->value,
+            'value'  => null,
+        ]);
 });
 
 it('throws exception and updates balance with credit history when opening register with non-zero balance', function () {

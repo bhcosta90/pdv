@@ -8,10 +8,10 @@ use App\Models\Enums\{RegisterHistoryAction, RegisterHistoryType};
 use App\Models\Register;
 
 beforeEach(function () {
-    $user           = mockUserInterface();
+    $user = mockUserInterface();
 
     $this->register = Register::factory()->recycle($user->store)->create(['balance' => 20]);
-    $this->action = app(OpenRegister::class);
+    $this->action   = app(OpenRegister::class);
 });
 
 it('opens register with zero balance', function () {

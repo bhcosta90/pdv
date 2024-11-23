@@ -39,17 +39,23 @@ class Register extends Model
         return $this->belongsTo(Store::class);
     }
 
-    public function changeBalance(float $value, RegisterHistoryAction $action): void
+    public function registerActivity(float $value, RegisterHistoryAction $action): void
     {
+        $valueHistory = abs((float) (string) BcMathNumberFacade::make($value)->sub($this->balance));
+
         $this->histories()->create([
-            'value'  => abs((float) (string) BcMathNumberFacade::make($value)->sub($this->balance)),
+            'value'  => $valueHistory !== 0 ? $valueHistory : null,
             'action' => $action,
-            'type'   => $value > $this->balance
-                ? RegisterHistoryType::Credit
-                : RegisterHistoryType::Debit,
+            'type'   => match (true) {
+                $value > $this->balance => RegisterHistoryType::Credit,
+                $value < $this->balance => RegisterHistoryType::Debit,
+                default                 => RegisterHistoryType::Success,
+            },
         ]);
 
-        $this->balance = $value;
+        if ($this->balance !== $value) {
+            $this->balance = $value;
+        }
     }
 
     public function histories(): HasMany
