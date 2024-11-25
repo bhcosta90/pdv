@@ -23,4 +23,12 @@ class RegisterPolicy
             && $register->opened_at === null
             && $register->opened_by === null;
     }
+
+    public function close(User $user, Register $register, Store $store): bool
+    {
+        return $user->can(Can::Register)
+            && $register->store_id === $store->id
+            && $register->closed_at === null
+            && $register->closed_by === null;
+    }
 }

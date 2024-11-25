@@ -12,6 +12,8 @@ beforeEach(function () {
 
     $this->register = Register::factory()->recycle($user->store)->create(['balance' => 20]);
     $this->action   = app(CloseRegister::class);
+
+    mockAuthorizeUser($user->user, 'close', $this->register, $user->store);
 });
 
 it('opens register with zero balance', function () {

@@ -24,7 +24,7 @@ class CloseRegister
 
         $register = Register::whereCode($code)->first();
 
-        $this->authorizeForUser($this->user, 'open', [$register, $this->store]);
+        $this->authorizeForUser($this->user, 'close', [$register, $this->store]);
 
         if ($balance !== $register->balance && $register->closed_attempt === null) {
             $register->closed_attempt = 1;

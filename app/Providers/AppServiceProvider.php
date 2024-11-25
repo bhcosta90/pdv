@@ -23,8 +23,10 @@ class AppServiceProvider extends ServiceProvider
     {
         BcMathNumber::setDefaultScale(4);
 
-        foreach (Can::cases() as $can) {
-            Gate::define($can, fn (User $user) => true);
+        if (!app()->environment('test')) {
+            foreach (Can::cases() as $can) {
+                Gate::define($can, fn (User $user) => true);
+            }
         }
     }
 }
