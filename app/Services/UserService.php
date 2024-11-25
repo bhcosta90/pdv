@@ -18,7 +18,10 @@ class UserService implements UserInterface
 
     public function store(): ?Store
     {
-        return $this->user->store;
+        /** @var Store $store */
+        $store = $this->user->store;
+
+        return $store;
     }
 
     public function user(): ?User
