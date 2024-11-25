@@ -47,11 +47,13 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function mockUserInterface(?Store $store = null, ?User $user = null): object
+function mockUserInterface(?Store $store = null, ?User $user = null, $linkStore = true): object
 {
-    \Pest\Laravel\mock(UserInterface::class, function ($mock) use (&$user, &$store) {
-        $mock->shouldReceive('user')->once()->andReturn($user ?: ($user = User::factory()->make()));
+    \Pest\Laravel\mock(UserInterface::class, function ($mock) use (&$user, &$store, $linkStore) {
         $mock->shouldReceive('store')->once()->andReturn($store ?: ($store = Store::factory()->create()));
+        $mock->shouldReceive('user')->once()->andReturn($user ?: ($user = User::factory()->make([
+            'store_id' => $linkStore ? $store->id : null,
+        ])));
     });
 
     return (object) [
