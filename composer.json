@@ -11,7 +11,6 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
-        "lorisleiva/laravel-actions": "^2.8",
         "robsontenorio/mary": "^1.41",
         "webit/bcmath": "^2.0"
     },
