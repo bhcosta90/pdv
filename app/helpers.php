@@ -2,15 +2,15 @@
 
 declare(strict_types = 1);
 
-use App\Facades\UserFacade;
+use App\Facades\UserServiceFacade;
 use App\Models\{Store, User};
 
 function store(): ?Store
 {
-    return UserFacade::store();
+    return UserServiceFacade::store();
 }
 
 function user(): ?User
 {
-    return UserFacade::user();
+    return UserServiceFacade::user();
 }

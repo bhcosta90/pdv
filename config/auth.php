@@ -46,7 +46,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | UserFacade Providers
+    | UserServiceFacade Providers
     |--------------------------------------------------------------------------
     |
     | All authentication guards have a user provider, which defines how the

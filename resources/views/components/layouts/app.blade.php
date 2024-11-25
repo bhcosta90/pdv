@@ -33,7 +33,7 @@
             {{-- MENU --}}
             <x-menu activate-by-route>
 
-                {{-- UserFacade --}}
+                {{-- UserServiceFacade --}}
                 @if($user = auth()->user())
                     <x-menu-separator />
 

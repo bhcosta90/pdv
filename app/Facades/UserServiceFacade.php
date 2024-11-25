@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static Store|null store()
  * @method static User|null user()
  */
-class UserFacade extends Facade
+class UserServiceFacade extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
